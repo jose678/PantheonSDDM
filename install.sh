@@ -344,7 +344,7 @@ show_banner() {
     [[ -f "$METADATA" ]] && active_theme=$(sed -n 's|^ConfigFile=Themes/\(.*\)\.conf|\1|p' "$METADATA" 2>/dev/null || echo "none")
     local disk_free; disk_free=$(df -h /usr/share 2>/dev/null | awk 'NR==2 {print $4}' || echo "??")
     local distro="Unknown"
-    [[ -f /etc/os-release ]] && distro=$(. /etc/os-release && echo "${PRETTY_NAME:-$NAME}")
+    [[ -f /etc/os-release ]] && distro=$(grep -E '^(PRETTY_NAME|NAME)=' /etc/os-release | head -n1 | cut -d= -f2 | tr -d '"')
 
     if $HAS_GUM; then
         local art_str
